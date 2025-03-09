@@ -13,36 +13,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Produtor {
-  id       String    @id
-  nome     String
-  fazendas Fazenda[]
+enum DocumentType {
+  CPF
+  CNPJ
 }
 
-model Fazenda {
-  id                String   @id @default(uuid()) @db.Uuid
-  nome              String
-  cidade            String
-  estado            String
-  area_total        Float
-  area_agricultavel Float
-  area_vegetacao    Float
-  produtor          Produtor @relation(fields: [produtor_id], references: [id])
-  produtor_id       String
-  safras            Safra[]
+model Producers {
+  id            String       @id @default(uuid()) @db.Uuid
+  document      String       @unique
+  document_type DocumentType
+  name          String
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  farms         Farms[]
 }
 
-model Safra {
-  id         String    @id @default(uuid()) @db.Uuid
-  nome       String
-  fazenda    Fazenda   @relation(fields: [fazenda_id], references: [id])
-  fazenda_id String    @db.Uuid
-  culturas   Cultura[]
+model Farms {
+  id                String     @id @default(uuid()) @db.Uuid
+  name              String
+  city              String
+  state             String
+  total_area        Float
+  agricultural_area Float
+  vegetation_area   Float
+  created_at        DateTime   @default(now())
+  updated_at        DateTime   @updatedAt
+  producer          Producers  @relation(fields: [producer_id], references: [id])
+  producer_id       String     @db.Uuid
+  harvests          Harvests[]
 }
 
-model Cultura {
-  id       String @id @default(uuid()) @db.Uuid
-  nome     String
-  Safra    Safra  @relation(fields: [safra_id], references: [id])
-  safra_id String @db.Uuid
+model Harvests {
+  id         String   @id @default(uuid()) @db.Uuid
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  farm       Farms    @relation(fields: [farm_id], references: [id])
+  farm_id    String   @db.Uuid
+  culturas   Crops[]
+}
+
+model Crops {
+  id         String   @id @default(uuid()) @db.Uuid
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  harvest    Harvests @relation(fields: [harvest_id], references: [id])
+  harvest_id String   @db.Uuid
 }
