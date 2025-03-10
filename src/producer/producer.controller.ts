@@ -3,8 +3,9 @@ import { CreateProducerDto } from './dto/create-producer.dto';
 import { GetProducerDto } from './dto/get-producer.dto';
 import { UpdateProducerDto } from './dto/update-producer.dto';
 import { ProducerService } from './producer.service';
+import { FindProducerDto } from './dto/find-producer.dto';
 
-@Controller('produtor')
+@Controller('producer')
 export class ProducerController {
   constructor(private readonly producerService: ProducerService) { }
 
@@ -19,8 +20,8 @@ export class ProducerController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.producerService.findProducer(id)
+  async findOne(@Param() params: FindProducerDto) {
+    return this.producerService.findProducer(params.id)
   }
 
   @Post()
@@ -29,12 +30,12 @@ export class ProducerController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() producer: UpdateProducerDto) {
-    return this.producerService.updateProducer(id, producer)
+  async update(@Param() params: FindProducerDto, @Body() producer: UpdateProducerDto) {
+    return this.producerService.updateProducer(params.id, producer)
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.producerService.deleteProducer(id)
+  async remove(@Param() params: FindProducerDto) {
+    return this.producerService.deleteProducer(params.id)
   }
 }

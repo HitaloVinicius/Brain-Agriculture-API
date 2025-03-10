@@ -38,7 +38,7 @@ model Farms {
   vegetation_area   Float
   created_at        DateTime   @default(now())
   updated_at        DateTime   @updatedAt
-  producer          Producers  @relation(fields: [producer_id], references: [id])
+  producer          Producers  @relation(fields: [producer_id], references: [id], onDelete: Cascade)
   producer_id       String     @db.Uuid
   harvests          Harvests[]
 }
@@ -48,7 +48,7 @@ model Harvests {
   name       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  farm       Farms    @relation(fields: [farm_id], references: [id])
+  farm       Farms    @relation(fields: [farm_id], references: [id], onDelete: Cascade)
   farm_id    String   @db.Uuid
   culturas   Crops[]
 }
@@ -58,6 +58,6 @@ model Crops {
   name       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  harvest    Harvests @relation(fields: [harvest_id], references: [id])
+  harvest    Harvests @relation(fields: [harvest_id], references: [id], onDelete: Cascade)
   harvest_id String   @db.Uuid
 }

@@ -7,7 +7,7 @@ import { UpdateProducerDto } from './dto/update-producer.dto';
 @Injectable()
 export class ProducerService {
   constructor(private prisma: PrismaService) { }
-
+  //TODO renomear para o padrão nest
   async getProducers(
     page: number = 1,
     perPage: number = 10
@@ -25,7 +25,19 @@ export class ProducerService {
 
   async findProducer(id: string) {
     const producer = await this.prisma.producers.findUnique({
-      where: { id }
+      where: { id },
+      omit: {
+        created_at: true,
+        updated_at: true
+      },
+      include: {
+        farms: {
+          select: {
+            id: true,
+            name: true
+          }
+        }
+      }
     })
     if (!producer) throw new NotFoundException('Produtor não encontrado')
     return producer

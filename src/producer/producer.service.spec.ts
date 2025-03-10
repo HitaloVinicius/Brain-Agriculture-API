@@ -4,6 +4,7 @@ import { PrismaService } from '../db/prisma.service';
 import { CreateProducerDto } from './dto/create-producer.dto';
 import { UpdateProducerDto } from './dto/update-producer.dto';
 import { ProducerService } from './producer.service';
+
 describe('ProducerService', () => {
   let producerService: ProducerService;
 
