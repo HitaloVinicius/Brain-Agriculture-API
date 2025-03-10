@@ -78,8 +78,17 @@ describe('ProducerService', () => {
   })
 
   describe('createProducer', () => {
-    it('should be create producer', async () => {
+    it('should be create producer with valid cpf', async () => {
       const data: CreateProducerDto = { document: '740.495.890-36', name: 'Sheldon Cooper' }
+      const result = await producerService.create(data)
+      expect(result).toEqual({
+        message: 'Produtor criado com sucesso!',
+        producerId: result.producerId,
+      })
+    })
+
+    it('should be create producer with valid cnpj', async () => {
+      const data: CreateProducerDto = { document: '57.736.544/0001-33', name: 'BigBang Ltda' }
       const result = await producerService.create(data)
       expect(result).toEqual({
         message: 'Produtor criado com sucesso!',

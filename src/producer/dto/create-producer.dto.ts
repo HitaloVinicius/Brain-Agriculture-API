@@ -8,7 +8,6 @@ export class CreateProducerDto {
     name: 'isCpfOrCnpj',
     validator: {
       validate: (value: string) => {
-        if (typeof value !== 'string') return false
         return cpf.isValid(value) || cnpj.isValid(value)
       },
       defaultMessage: () => 'Documento inválido. Insira um CPF ou CNPJ válido.',
