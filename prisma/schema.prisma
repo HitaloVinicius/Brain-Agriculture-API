@@ -50,7 +50,7 @@ model Harvests {
   updated_at DateTime @updatedAt
   farm       Farms    @relation(fields: [farm_id], references: [id], onDelete: Cascade)
   farm_id    String   @db.Uuid
-  culturas   Crops[]
+  crops      Crops[]
 }
 
 model Crops {
