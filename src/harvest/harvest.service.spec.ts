@@ -75,7 +75,7 @@ describe('HarvestService', () => {
   })
 
   describe('create harvest', () => {
-    it('should be create producer', async () => {
+    it('should be create harvest', async () => {
       const data: CreateHarvestDto = {
         farm_id: '17c0e0b4-bb7a-4590-abcc-40cb7d9290a9',
         name: 'Safra 2025',
@@ -98,7 +98,7 @@ describe('HarvestService', () => {
     });
   })
 
-  describe('update farm', () => {
+  describe('update harvest', () => {
     it('should be update harvest', async () => {
       const harvestId = '1c056972-442e-40e4-8071-568288c16020'
       const data: UpdateHarvestDto = {

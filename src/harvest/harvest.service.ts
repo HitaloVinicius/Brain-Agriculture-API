@@ -37,7 +37,8 @@ export class HarvestService {
       where: { id },
       omit: {
         created_at: true,
-        updated_at: true
+        updated_at: true,
+        farm_id: true
       },
       include: {
         crops: {

@@ -80,7 +80,7 @@ describe('FarmService', () => {
   })
 
   describe('create farm', () => {
-    it('should be create producer', async () => {
+    it('should be create farm', async () => {
       const data: CreateFarmDto = {
         producer_id: '17c0e0b4-bb7a-4590-abcc-40cb7d9290a9',
         name: 'Rancho Skywalker',

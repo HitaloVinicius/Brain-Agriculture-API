@@ -34,7 +34,24 @@ export class ProducerService {
         farms: {
           select: {
             id: true,
-            name: true
+            name: true,
+            city: true,
+            state: true,
+            total_area: true,
+            agricultural_area: true,
+            vegetation_area: true,
+            harvests: {
+              select: {
+                id: true,
+                name: true,
+                crops: {
+                  select: {
+                    id: true,
+                    name: true
+                  }
+                }
+              }
+            }
           }
         }
       }
