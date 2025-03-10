@@ -72,7 +72,7 @@ export class HarvestService {
   }
 
   async update(id: string, updateHarvestDto: UpdateHarvestDto) {
-    const harvestExists = await this.findOne(id)
+    const harvestExists = await this.prisma.harvests.findUnique({ where: { id } })
     if (!harvestExists) {
       this.logger.error('NotFoundException -- Safra não encontrada.')
       throw new NotFoundException('Safra não encontrada.')
@@ -90,7 +90,7 @@ export class HarvestService {
   }
 
   async remove(id: string) {
-    const harvestExists = await this.findOne(id)
+    const harvestExists = await this.prisma.harvests.findUnique({ where: { id } })
     if (!harvestExists) {
       this.logger.error('NotFoundException -- Safra não encontrada.')
       throw new NotFoundException('Safra não encontrada.')

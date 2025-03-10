@@ -16,7 +16,9 @@ export class ProducerService {
       throw new BadRequestException('Documento inválido. Insira um CPF ou CNPJ válido.')
     }
 
-    const producerExists = await this.findOneByDocument(data.document.replace(/[^0-9]/g, ''))
+    const producerExists = await this.prisma.producers.findUnique({
+      where: { document: data.document.replace(/[^0-9]/g, '') }
+    })
     if (producerExists) {
       this.logger.error('ConflictException -- Já existe um produtor com esse documento.')
       throw new ConflictException('Já existe um produtor com esse documento.')
@@ -95,16 +97,8 @@ export class ProducerService {
     return { ...producer, document: maskPartialDocument(producer.document) }
   }
 
-  async findOneByDocument(document: string) {
-    const result = await this.prisma.producers.findUnique({
-      where: { document }
-    })
-    this.logger.log('findOneByDocument -- Success')
-    return result
-  }
-
   async update(id: string, data: UpdateProducerDto) {
-    const producerExists = await this.findOne(id)
+    const producerExists = await this.prisma.producers.findUnique({ where: { id } })
     if (!producerExists) {
       this.logger.error('NotFoundException -- Produtor não encontrado')
       throw new NotFoundException('Produtor não encontrado')
@@ -122,7 +116,7 @@ export class ProducerService {
   }
 
   async remove(id: string) {
-    const producerExists = await this.findOne(id)
+    const producerExists = await this.prisma.producers.findUnique({ where: { id } })
     if (!producerExists) {
       this.logger.error('NotFoundException -- Produtor não encontrado')
       throw new NotFoundException('Produtor não encontrado')

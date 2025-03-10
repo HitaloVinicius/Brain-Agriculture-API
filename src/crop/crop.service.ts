@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../db/prisma.service';
 import { CreateCropDto } from './dto/create-crop.dto';
 import { UpdateCropDto } from './dto/update-crop.dto';
@@ -65,10 +65,8 @@ export class CropService {
     return crop
   }
 
-  //TODO remover reutilização de findOne (Em todos os services)
-
   async update(id: string, updateCropDto: UpdateCropDto) {
-    const cropExists = await this.findOne(id)
+    const cropExists = await this.prisma.crops.findUnique({ where: { id } })
     if (!cropExists) {
       this.logger.error('NotFoundException -- Cultura não encontrada.')
       throw new NotFoundException('Cultura não encontrada.')
@@ -86,7 +84,7 @@ export class CropService {
   }
 
   async remove(id: string) {
-    const cropExists = await this.findOne(id)
+    const cropExists = await this.prisma.crops.findUnique({ where: { id } })
     if (!cropExists) {
       this.logger.error('NotFoundException -- Cultura não encontrada.')
       throw new NotFoundException('Cultura não encontrada.')

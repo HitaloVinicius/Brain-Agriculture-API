@@ -19,7 +19,6 @@ export class FarmService {
     const producer = await this.prisma.producers.findUnique({
       where: { id: createFarmDto.producer_id }
     })
-
     if (!producer) {
       this.logger.error('NotFoundException -- Produtor não encontrado')
       throw new NotFoundException('Produtor não encontrado')
@@ -89,7 +88,8 @@ export class FarmService {
       this.logger.error('BadRequestException -- A área total deve ser maior ou igual à soma das áreas agrícola e de vegetação')
       throw new BadRequestException('A área total deve ser maior ou igual à soma das áreas agrícola e de vegetação')
     }
-    const farmExists = await this.findOne(id)
+
+    const farmExists = await this.prisma.farms.findUnique({ where: { id } })
     if (!farmExists) {
       this.logger.error('NotFoundException -- Fazenda não encontrada.')
       throw new NotFoundException('Fazenda não encontrada.')
@@ -107,7 +107,7 @@ export class FarmService {
   }
 
   async remove(id: string) {
-    const farmExists = await this.findOne(id)
+    const farmExists = await this.prisma.farms.findUnique({ where: { id } })
     if (!farmExists) {
       this.logger.error('NotFoundException -- Fazenda não encontrada.')
       throw new NotFoundException('Fazenda não encontrada.')
