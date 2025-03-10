@@ -59,16 +59,20 @@ describe('ProducerService', () => {
     })
 
     it('should be return all producers with pagination', async () => {
-      const spy = jest.spyOn(mockPrismaService.producers, 'findMany')
-      await producerService.findAll(1, 2)
-      expect(spy).toHaveBeenCalledWith({ "select": { "document_type": true, "id": true, "name": true }, "skip": 0, "take": 2 })
+      const result = await producerService.findAll(1, 5)
+      expect(result).toEqual(mockDb)
     })
   })
 
   describe('findProducer', () => {
-    it('should be return producer', async () => {
+    it('should be return producer with cnpj', async () => {
       const result = await producerService.findOne('42452ab2-e50a-4ed0-9cce-613a6d51851d')
       expect(result).toEqual({ ...mockDb[1], document: '**.100.***/****-**' })
+    })
+
+    it('should be return producer with cpf', async () => {
+      const result = await producerService.findOne('b6957288-337f-49e7-b0af-c8d560451fa1')
+      expect(result).toEqual({ ...mockDb[2], document: '***.527.***-**' })
     })
 
     it('should throw NotFoundException if producer does not exist', async () => {

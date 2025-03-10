@@ -43,7 +43,7 @@ describe('ProducerController', () => {
 
     expect(mockProducerService.findAll).toHaveBeenCalledTimes(1);
     expect(mockProducerService.findAll).toHaveBeenCalledWith(1, 1);
-  });
+  })
 
   it('should return a producer', async () => {
     await producerController.findOne({ id: '55f16d8f-1c20-438a-b3a7-1d64a40b836d' });
