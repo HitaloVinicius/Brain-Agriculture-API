@@ -54,25 +54,25 @@ describe('ProducerService', () => {
 
   describe('getProducers', () => {
     it('should be return all producers', async () => {
-      const result = await producerService.getProducers()
+      const result = await producerService.findAll()
       expect(result).toEqual(mockDb)
     })
 
     it('should be return all producers with pagination', async () => {
       const spy = jest.spyOn(mockPrismaService.producers, 'findMany')
-      await producerService.getProducers(1, 2)
+      await producerService.findAll(1, 2)
       expect(spy).toHaveBeenCalledWith({ "select": { "document_type": true, "id": true, "name": true }, "skip": 0, "take": 2 })
     })
   })
 
   describe('findProducer', () => {
     it('should be return producer', async () => {
-      const result = await producerService.findProducer('42452ab2-e50a-4ed0-9cce-613a6d51851d')
+      const result = await producerService.findOne('42452ab2-e50a-4ed0-9cce-613a6d51851d')
       expect(result).toEqual(mockDb[1])
     })
 
     it('should throw NotFoundException if producer does not exist', async () => {
-      const result = producerService.findProducer('9a356931-030f-4fda-8377-38239582e810')
+      const result = producerService.findOne('9a356931-030f-4fda-8377-38239582e810')
       await expect(result).rejects.toThrow(NotFoundException)
     })
   })
@@ -80,7 +80,7 @@ describe('ProducerService', () => {
   describe('createProducer', () => {
     it('should be create producer', async () => {
       const data: CreateProducerDto = { document: '740.495.890-36', name: 'Sheldon Cooper' }
-      const result = await producerService.createProducer(data)
+      const result = await producerService.create(data)
       expect(result).toEqual({
         message: 'Produtor criado com sucesso!',
         producerId: result.producerId,
@@ -89,13 +89,13 @@ describe('ProducerService', () => {
 
     it('should throw an error if document is invalid', async () => {
       const data: CreateProducerDto = { name: 'Sheldon Cooper', document: '123.456.789-00' };
-      const result = producerService.createProducer(data)
+      const result = producerService.create(data)
       await expect(result).rejects.toThrow(BadRequestException);
     });
 
     it('should throw ConflictException if producer with document exists', async () => {
       const data: CreateProducerDto = { name: 'Leonard Hofstadter', document: '48435103000100' };
-      const result = producerService.createProducer(data)
+      const result = producerService.create(data)
       await expect(result).rejects.toThrow(ConflictException);
     });
   })
@@ -103,7 +103,7 @@ describe('ProducerService', () => {
   describe('updateProducer', () => {
     it('should be update producer', async () => {
       const data: UpdateProducerDto = { name: 'Leonard' }
-      const result = await producerService.updateProducer('6752b1b0-2464-47d4-a0d3-c399141e5943', data)
+      const result = await producerService.update('6752b1b0-2464-47d4-a0d3-c399141e5943', data)
       expect(result).toEqual({
         message: 'Produtor editado com sucesso!',
         producerId: result.producerId,
@@ -112,14 +112,14 @@ describe('ProducerService', () => {
 
     it('should throw an error if id is invalid when updating', async () => {
       const data: UpdateProducerDto = { name: 'Leonard' }
-      const result = producerService.updateProducer('5d6ed613-f4b6-4c40-860f-7ca7d2be2286', data)
+      const result = producerService.update('5d6ed613-f4b6-4c40-860f-7ca7d2be2286', data)
       await expect(result).rejects.toThrow(NotFoundException)
     })
   })
 
   describe('updateProducer', () => {
     it('should be delete producer', async () => {
-      const result = await producerService.deleteProducer('6752b1b0-2464-47d4-a0d3-c399141e5943')
+      const result = await producerService.remove('6752b1b0-2464-47d4-a0d3-c399141e5943')
       expect(result).toEqual({
         message: 'Produtor excluído com sucesso!',
         producerId: result.producerId,
@@ -127,7 +127,7 @@ describe('ProducerService', () => {
     })
 
     it('should throw an error if id is invalid when deleting', async () => {
-      const result = producerService.deleteProducer('5d6ed613-f4b6-4c40-860f-7ca7d2be2286')
+      const result = producerService.remove('5d6ed613-f4b6-4c40-860f-7ca7d2be2286')
       await expect(result).rejects.toThrow(NotFoundException)
     })
   })

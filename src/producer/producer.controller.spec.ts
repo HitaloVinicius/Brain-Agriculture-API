@@ -7,11 +7,11 @@ describe('ProducerController', () => {
   let producerController: ProducerController;
 
   const mockProducerService = {
-    createProducer: jest.fn(),
-    getProducers: jest.fn(),
-    findProducer: jest.fn(),
-    updateProducer: jest.fn(),
-    deleteProducer: jest.fn(),
+    create: jest.fn(),
+    findAll: jest.fn(),
+    findOne: jest.fn(),
+    update: jest.fn(),
+    remove: jest.fn(),
   }
 
   beforeEach(async () => {
@@ -34,33 +34,33 @@ describe('ProducerController', () => {
     };
     await producerController.create(producerDto);
 
-    expect(mockProducerService.createProducer).toHaveBeenCalledTimes(1);
-    expect(mockProducerService.createProducer).toHaveBeenCalledWith(producerDto);
+    expect(mockProducerService.create).toHaveBeenCalledTimes(1);
+    expect(mockProducerService.create).toHaveBeenCalledWith(producerDto);
   });
 
   it('should return producers', async () => {
     await producerController.findAll({ page: 1, per_page: 1 });
 
-    expect(mockProducerService.getProducers).toHaveBeenCalledTimes(1);
-    expect(mockProducerService.getProducers).toHaveBeenCalledWith(1, 1);
+    expect(mockProducerService.findAll).toHaveBeenCalledTimes(1);
+    expect(mockProducerService.findAll).toHaveBeenCalledWith(1, 1);
   });
 
   it('should return a producer', async () => {
     await producerController.findOne({ id: '55f16d8f-1c20-438a-b3a7-1d64a40b836d' });
-    expect(mockProducerService.findProducer).toHaveBeenCalledTimes(1);
-    expect(mockProducerService.findProducer).toHaveBeenCalledWith('55f16d8f-1c20-438a-b3a7-1d64a40b836d');
+    expect(mockProducerService.findOne).toHaveBeenCalledTimes(1);
+    expect(mockProducerService.findOne).toHaveBeenCalledWith('55f16d8f-1c20-438a-b3a7-1d64a40b836d');
   });
 
   it('should update a producer', async () => {
     const updateDto = { name: 'Stuart Bloom' };
     await producerController.update({ id: '55f16d8f-1c20-438a-b3a7-1d64a40b836d' }, updateDto);
-    expect(mockProducerService.updateProducer).toHaveBeenCalledTimes(1);
-    expect(mockProducerService.updateProducer).toHaveBeenCalledWith('55f16d8f-1c20-438a-b3a7-1d64a40b836d', updateDto);
+    expect(mockProducerService.update).toHaveBeenCalledTimes(1);
+    expect(mockProducerService.update).toHaveBeenCalledWith('55f16d8f-1c20-438a-b3a7-1d64a40b836d', updateDto);
   });
 
   it('should delete a producer', async () => {
     await producerController.remove({ id: '55f16d8f-1c20-438a-b3a7-1d64a40b836d' });
-    expect(mockProducerService.deleteProducer).toHaveBeenCalledTimes(1);
-    expect(mockProducerService.deleteProducer).toHaveBeenCalledWith('55f16d8f-1c20-438a-b3a7-1d64a40b836d');
+    expect(mockProducerService.remove).toHaveBeenCalledTimes(1);
+    expect(mockProducerService.remove).toHaveBeenCalledWith('55f16d8f-1c20-438a-b3a7-1d64a40b836d');
   });
 });

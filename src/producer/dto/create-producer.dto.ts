@@ -20,5 +20,3 @@ export class CreateProducerDto {
   @IsNotEmpty({ message: 'O nome não pode estar vazio.' })
   name: string
 }
-
-//TODO testar DTO

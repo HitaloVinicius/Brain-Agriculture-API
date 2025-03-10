@@ -7,8 +7,30 @@ import { UpdateProducerDto } from './dto/update-producer.dto';
 @Injectable()
 export class ProducerService {
   constructor(private prisma: PrismaService) { }
-  //TODO renomear para o padrão nest
-  async getProducers(
+
+  async create(data: CreateProducerDto) {
+    if (!cpf.isValid(data.document) && !cnpj.isValid(data.document))
+      throw new BadRequestException('Documento inválido. Insira um CPF ou CNPJ válido.')
+
+    const producerExists = await this.findOneByDocument(data.document.replace(/[^0-9]/g, ''))
+    if (producerExists)
+      throw new ConflictException('Já existe um produtor com esse documento.')
+
+    const producer = await this.prisma.producers.create({
+      data: {
+        ...data,
+        document: data.document.replace(/[^0-9]/g, ''),
+        document_type: cpf.isValid(data.document) ? 'CPF' : 'CNPJ'
+      },
+    });
+
+    return {
+      message: 'Produtor criado com sucesso!',
+      producerId: producer.id,
+    };
+  }
+
+  async findAll(
     page: number = 1,
     perPage: number = 10
   ) {
@@ -23,7 +45,7 @@ export class ProducerService {
     });
   }
 
-  async findProducer(id: string) {
+  async findOne(id: string) {
     const producer = await this.prisma.producers.findUnique({
       where: { id },
       omit: {
@@ -60,36 +82,14 @@ export class ProducerService {
     return producer
   }
 
-  async findProducerByDocument(document: string) {
+  async findOneByDocument(document: string) {
     return await this.prisma.producers.findUnique({
       where: { document }
     })
   }
 
-  async createProducer(data: CreateProducerDto) {
-    if (!cpf.isValid(data.document) && !cnpj.isValid(data.document))
-      throw new BadRequestException('Documento inválido. Insira um CPF ou CNPJ válido.')
-
-    const producerExists = await this.findProducerByDocument(data.document.replace(/[^0-9]/g, ''))
-    if (producerExists)
-      throw new ConflictException('Já existe um produtor com esse documento.')
-
-    const producer = await this.prisma.producers.create({
-      data: {
-        ...data,
-        document: data.document.replace(/[^0-9]/g, ''),
-        document_type: cpf.isValid(data.document) ? 'CPF' : 'CNPJ'
-      },
-    });
-
-    return {
-      message: 'Produtor criado com sucesso!',
-      producerId: producer.id,
-    };
-  }
-
-  async updateProducer(id: string, data: UpdateProducerDto) {
-    const producerExists = await this.findProducer(id)
+  async update(id: string, data: UpdateProducerDto) {
+    const producerExists = await this.findOne(id)
     if (!producerExists) throw new NotFoundException('Produtor não encontrado')
 
     await this.prisma.producers.update({
@@ -103,8 +103,8 @@ export class ProducerService {
     };
   }
 
-  async deleteProducer(id: string) {
-    const producerExists = await this.findProducer(id)
+  async remove(id: string) {
+    const producerExists = await this.findOne(id)
     if (!producerExists) throw new NotFoundException('Produtor não encontrado')
 
     await this.prisma.producers.delete({
