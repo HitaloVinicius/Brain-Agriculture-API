@@ -4,9 +4,10 @@ import { DbModule } from './db/db.module';
 import { FarmModule } from './farm/farm.module';
 import { HarvestModule } from './harvest/harvest.module';
 import { CropModule } from './crop/crop.module';
+import { StatsModule } from './stats/stats.module';
 
 @Module({
-  imports: [ProducerModule, DbModule, FarmModule, HarvestModule, CropModule],
+  imports: [ProducerModule, DbModule, FarmModule, HarvestModule, CropModule, StatsModule],
   controllers: [],
   providers: [],
 })
