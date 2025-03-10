@@ -1,27 +1,34 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../db/prisma.service';
 import { CreateFarmDto } from './dto/create-farm.dto';
 import { UpdateFarmDto } from './dto/update-farm.dto';
-import { PrismaService } from '../db/prisma.service';
 
 @Injectable()
 export class FarmService {
+  private readonly logger = new Logger(FarmService.name)
   constructor(private prisma: PrismaService) { }
+
   //TODO add enum nos estados
   async create(createFarmDto: CreateFarmDto) {
     const { total_area, agricultural_area, vegetation_area } = createFarmDto
-    if (total_area < agricultural_area + vegetation_area)
+    if (total_area < agricultural_area + vegetation_area) {
+      this.logger.error('BadRequestException -- A área total deve ser maior ou igual à soma das áreas agrícola e de vegetação')
       throw new BadRequestException('A área total deve ser maior ou igual à soma das áreas agrícola e de vegetação')
+    }
 
     const producer = await this.prisma.producers.findUnique({
       where: { id: createFarmDto.producer_id }
     })
 
-    if (!producer) throw new NotFoundException('Produtor não encontrado')
+    if (!producer) {
+      this.logger.error('NotFoundException -- Produtor não encontrado')
+      throw new NotFoundException('Produtor não encontrado')
+    }
 
     const farm = await this.prisma.farms.create({
       data: createFarmDto
     })
-
+    this.logger.log('create -- Success')
     return {
       message: 'Fazenda criada com sucesso!',
       farmId: farm.id,
@@ -33,7 +40,7 @@ export class FarmService {
     page: number = 1,
     perPage: number = 10
   ) {
-    return await this.prisma.farms.findMany({
+    const result = await this.prisma.farms.findMany({
       skip: (page - 1) * perPage,
       take: perPage,
       select: {
@@ -41,6 +48,8 @@ export class FarmService {
         name: true
       },
     });
+    this.logger.log('findAll -- Success')
+    return result
   }
 
   async findOne(id: string) {
@@ -66,23 +75,31 @@ export class FarmService {
         }
       }
     })
-    if (!farm) throw new NotFoundException('Fazenda não encontrada!')
+    if (!farm) {
+      this.logger.error('NotFoundException -- Fazenda não encontrada!')
+      throw new NotFoundException('Fazenda não encontrada!')
+    }
+    this.logger.log('findOne -- Success')
     return farm
   }
 
   async update(id: string, updateFarmDto: UpdateFarmDto) {
     const { total_area, agricultural_area, vegetation_area } = updateFarmDto
-    if (total_area < agricultural_area + vegetation_area)
+    if (total_area < agricultural_area + vegetation_area) {
+      this.logger.error('BadRequestException -- A área total deve ser maior ou igual à soma das áreas agrícola e de vegetação')
       throw new BadRequestException('A área total deve ser maior ou igual à soma das áreas agrícola e de vegetação')
-
+    }
     const farmExists = await this.findOne(id)
-    if (!farmExists) throw new NotFoundException('Fazenda não encontrada.')
+    if (!farmExists) {
+      this.logger.error('NotFoundException -- Fazenda não encontrada.')
+      throw new NotFoundException('Fazenda não encontrada.')
+    }
 
     await this.prisma.farms.update({
       where: { id },
       data: updateFarmDto
     })
-
+    this.logger.log('update -- Success')
     return {
       message: 'Fazenda editada com sucesso!',
       farmId: id,
@@ -91,12 +108,15 @@ export class FarmService {
 
   async remove(id: string) {
     const farmExists = await this.findOne(id)
-    if (!farmExists) throw new NotFoundException('Fazenda não encontrada!')
+    if (!farmExists) {
+      this.logger.error('NotFoundException -- Fazenda não encontrada.')
+      throw new NotFoundException('Fazenda não encontrada.')
+    }
 
     await this.prisma.farms.delete({
       where: { id }
     })
-
+    this.logger.log('remove -- Success')
     return {
       message: 'Fazenda excluída com sucesso!',
       farmId: id,
