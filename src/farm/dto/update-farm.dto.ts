@@ -1,5 +1,5 @@
-import { IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
-
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { StateType } from "@prisma/client";
 export class UpdateFarmDto {
   @IsString()
   @IsNotEmpty()
@@ -9,9 +9,9 @@ export class UpdateFarmDto {
   @IsNotEmpty()
   city: string
 
-  @IsString()
+  @IsEnum(StateType, { message: 'Estado inválido, use a sigla correta (ex: SP, RJ, RN)' })
   @IsNotEmpty()
-  state: string
+  state: StateType
 
   @IsNumber()
   @IsNotEmpty()

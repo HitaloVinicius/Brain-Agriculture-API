@@ -8,7 +8,6 @@ export class FarmService {
   private readonly logger = new Logger(FarmService.name)
   constructor(private prisma: PrismaService) { }
 
-  //TODO add enum nos estados
   async create(createFarmDto: CreateFarmDto) {
     const { total_area, agricultural_area, vegetation_area } = createFarmDto
     if (total_area < agricultural_area + vegetation_area) {
