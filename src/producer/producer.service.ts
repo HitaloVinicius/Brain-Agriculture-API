@@ -1,5 +1,6 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { cnpj, cpf } from 'cpf-cnpj-validator';
+import { maskPartialDocument } from '../shared/utils/maskPartialDocument';
 import { PrismaService } from '../db/prisma.service';
 import { CreateProducerDto } from './dto/create-producer.dto';
 import { UpdateProducerDto } from './dto/update-producer.dto';
@@ -79,7 +80,7 @@ export class ProducerService {
       }
     })
     if (!producer) throw new NotFoundException('Produtor não encontrado')
-    return producer
+    return { ...producer, document: maskPartialDocument(producer.document) }
   }
 
   async findOneByDocument(document: string) {

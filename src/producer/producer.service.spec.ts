@@ -68,7 +68,7 @@ describe('ProducerService', () => {
   describe('findProducer', () => {
     it('should be return producer', async () => {
       const result = await producerService.findOne('42452ab2-e50a-4ed0-9cce-613a6d51851d')
-      expect(result).toEqual(mockDb[1])
+      expect(result).toEqual({ ...mockDb[1], document: '**.100.***/****-**' })
     })
 
     it('should throw NotFoundException if producer does not exist', async () => {

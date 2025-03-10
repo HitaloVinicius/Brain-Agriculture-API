@@ -6,7 +6,7 @@ import { PrismaService } from '../db/prisma.service';
 @Injectable()
 export class FarmService {
   constructor(private prisma: PrismaService) { }
-
+  //TODO add enum nos estados
   async create(createFarmDto: CreateFarmDto) {
     const { total_area, agricultural_area, vegetation_area } = createFarmDto
     if (total_area < agricultural_area + vegetation_area)
