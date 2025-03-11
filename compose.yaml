@@ -25,5 +25,18 @@ services:
     environment:
       DATABASE_URL: postgresql://admin:admin@postgres:5432/db?schema=public
 
+  prisma-studio:
+    image: node:lts-alpine
+    container_name: prisma_studio
+    working_dir: /app
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+      - nestapp
+    ports:
+      - "5555:5555"
+    command: [ "npx", "prisma", "studio" ]
+
 volumes:
   postgres_data:

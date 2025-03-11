@@ -29,6 +29,10 @@ Para facilitar, as rotas podem ser acessadas e testadas através do endpoint htt
 
 Como nesse teste não foi abordado front-end, uma rota stats foi adicionada com informações que podem ser utilizadas em um dashboard.
 
+3. **Prisma Studio**
+
+Se desejar visualizar a base de dados, o serviço do Prisma Studio pode ser acessado através de http://localhost:5555.
+
 
 ### Como executar Testes
 Primeiro execute `npm install` na raiz do projeto, após isso execute `npm run test:cov`.
