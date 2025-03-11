@@ -24,6 +24,7 @@ services:
       - postgres
     environment:
       DATABASE_URL: postgresql://admin:admin@postgres:5432/db?schema=public
+      DIRECT_URL: postgresql://admin:admin@postgres:5432/db?schema=public
 
   prisma-studio:
     image: node:lts-alpine

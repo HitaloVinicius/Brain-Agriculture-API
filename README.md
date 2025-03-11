@@ -39,7 +39,9 @@ Primeiro execute `npm install` na raiz do projeto, após isso execute `npm run t
 
 
 ### Configuração do Banco de Dados fora do ambiente Docker
-Para testar fora do ambiente do Docker um arquivo `.env` com a variável `DATABASE_URL` deve ser criada.
+Para testar fora do ambiente do Docker um arquivo `.env` com as variáveis `DATABASE_URL` e `DIRECT_URL` deve ser criado.
+Durante a execução local, os dois valores podem ser idênticos. Porém, em outros ambientes (como por exemplo o Supabase) esses valores podem ser distintos.
+Opcionalmente a dependência de directUrl pode ser removida do schema.prisma.
 
 ## Database
 Diagrama ER simplificado, ilustrando a estrutura do banco de dados e seus principais relacionamentos.
