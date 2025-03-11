@@ -32,6 +32,7 @@ export class StatsService {
       vegetation_area
     } = farmUse._sum
 
+    this.logger.log('getStats -- Success')
     return {
       totalFarms,
       totalHectares: totalHectares._sum.total_area,

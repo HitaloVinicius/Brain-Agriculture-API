@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as morgan from 'morgan';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 
 async function bootstrap() {
@@ -10,6 +11,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     transform: true
   }));
+  const config = new DocumentBuilder()
+    .setTitle('Brain Agriculture API')
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('swagger', app, documentFactory);
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
