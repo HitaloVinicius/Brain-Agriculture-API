@@ -1,17 +1,10 @@
 services:
 
-  db:
+  postgres:
     image: postgres
-    restart: always
+    restart: no
     container_name: postgres
-    # set shared memory limit when using docker-compose
     shm_size: 128mb
-    # or set shared memory limit when deploy via swarm stack
-    #volumes:
-    #  - type: tmpfs
-    #    target: /dev/shm
-    #    tmpfs:
-    #      size: 134217728 # 128*2^20 bytes = 128Mb
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
@@ -21,12 +14,16 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  adminer:
-    image: adminer
-    restart: always
-    container_name: adminer
+  nestapp:
+    build: .
+    container_name: nestapp
+    restart: no
     ports:
-      - 8080:8080
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://admin:admin@postgres:5432/db?schema=public
 
 volumes:
   postgres_data:
