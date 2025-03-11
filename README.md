@@ -40,3 +40,8 @@ Primeiro execute `npm install` na raiz do projeto, após isso execute `npm run t
 
 ### Configuração do Banco de Dados fora do ambiente Docker
 Para testar fora do ambiente do Docker um arquivo `.env` com a variável `DATABASE_URL` deve ser criada.
+
+## Database
+Diagrama ER simplificado, ilustrando a estrutura do banco de dados e seus principais relacionamentos.
+
+![ERD](./docs/ERD.jpg)
