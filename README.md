@@ -18,7 +18,7 @@ Para executar a aplicação e o banco de dados em containers Docker, execute o s
 ```bash
 docker compose up --build
 ```
-```A instalação das dependências pode demorar um pouco```
+⚠️ ```A primeira instalação das dependências pode demorar um pouco```
 
 
 2. **Verificando e usando a aplicação**
@@ -59,3 +59,13 @@ Abaixo estão os tipos de dados utilizados no sistema para definir DocumentType 
 | **StateType**    | AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO |
 
 Esses tipos são usados para garantir a integridade dos dados e facilitar o tratamento e validação das informações.
+
+
+## Cloud Run + Supabase
+
+Esta aplicação está rodando no Google Cloud Run e utiliza Supabase como banco de dados. Alguns dados iniciais já foram inseridos para demonstrar o funcionamento, sinta-se à vontade para testar com mais dados conforme necessário.
+
+### Acesso a API em Cloud Run
+A aplicação pode ser acessada através de https://brain-agriculture-334776019966.us-central1.run.app. Assim como sua versão local, a rota https://brain-agriculture-334776019966.us-central1.run.app/swagger está disponivel para facilitar a utilização.
+
+⚠️ ```A primeira execução da aplicação pode ser um pouco mais lenta, pois o Cloud Run pode estar inicializando o ambiente de execução. Após a inicialização, as execuções subsequentes serão mais rápidas.```
