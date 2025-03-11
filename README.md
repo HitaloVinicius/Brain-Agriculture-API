@@ -1,20 +1,20 @@
 # Brain Agriculture API
 
 ## Descrição
-Este projeto é uma API desenvolvida com **NestJS**, com o objetivo de gerenciar informações sobre fazendas, produtores, safras e culturas. A aplicação está configurada para rodar em um ambiente Docker, com o banco de dados **PostgreSQL** também em container.
+Este projeto é uma API desenvolvida com **NestJS**, com o objetivo de gerenciar informações sobre fazendas, produtores, safras e culturas. A aplicação está configurada para executar em um ambiente Docker, com o banco de dados **PostgreSQL** também em container.
 
 ## Pré-requisitos
-Antes de rodar a aplicação, é necessário ter as seguintes ferramentas instaladas:
+Antes de executar a aplicação, é necessário ter as seguintes ferramentas instaladas:
 * Docker
 * Docker Compose
 * Node.js (para desenvolver e testar localmente)
 
 ## Configuração do Projeto
 
-### Passos para Rodar o Projeto
+### Passos para Executar o Projeto
 1. **Build e Start no Docker Compose**
 
-Para rodar a aplicação e o banco de dados em containers Docker, execute o seguinte comando:
+Para executar a aplicação e o banco de dados em containers Docker, execute o seguinte comando:
 ```bash
 docker compose up --build
 ```
@@ -30,7 +30,7 @@ Para facilitar, as rotas podem ser acessadas e testadas através do endpoint htt
 Como nesse teste não foi abordado front-end, uma rota stats foi adicionada com informações que podem ser utilizadas em um dashboard.
 
 
-### Como rodar Testes
+### Como executar Testes
 Primeiro execute `npm install` na raiz do projeto, após isso execute `npm run test:cov`.
 
 
