@@ -40,10 +40,22 @@ Primeiro execute `npm install` na raiz do projeto, após isso execute `npm run t
 
 ### Configuração do Banco de Dados fora do ambiente Docker
 Para testar fora do ambiente do Docker um arquivo `.env` com as variáveis `DATABASE_URL` e `DIRECT_URL` deve ser criado.
-Durante a execução local, os dois valores podem ser idênticos. Porém, em outros ambientes (como por exemplo o Supabase) esses valores podem ser distintos.
+
+Durante a execução local os dois valores podem ser idênticos, porém, em outros ambientes (como por exemplo o Supabase) esses valores podem ser distintos.
+
 Opcionalmente a dependência de directUrl pode ser removida do schema.prisma.
 
 ## Database
 Diagrama ER simplificado, ilustrando a estrutura do banco de dados e seus principais relacionamentos.
 
 ![ERD](./docs/ERD.jpg)
+
+### Tipos de Dados
+Abaixo estão os tipos de dados utilizados no sistema para definir DocumentType e StateType.
+
+| **Tipo**         | **Valores**                            |
+|------------------|----------------------------------------|
+| **DocumentType** | CPF, CNPJ                              |
+| **StateType**    | AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO |
+
+Esses tipos são usados para garantir a integridade dos dados e facilitar o tratamento e validação das informações.
